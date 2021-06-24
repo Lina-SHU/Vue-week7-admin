@@ -1,6 +1,6 @@
 <template>
   <loading v-model:active="isLoading"/>
-  <div class="modal fade" id="modal" ref="updateModal">
+  <div class="modal fade" id="modal" ref="modal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
@@ -31,11 +31,31 @@
                 <label for="decription" class="form-label">文章描述</label>
                 <input type="text" class="form-control" id="decription" v-model='temp.decription' placeholder="請輸入描述">
               </div>
-              <div class="form-check">
+              <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="isPublic" v-model="temp.isPublic">
                 <label class="form-check-label" for="isPublic">
                   是否公開
                 </label>
+              </div>
+              <div>
+                <div class="mb-1">文章標籤</div>
+                <div v-if="Array.isArray(temp.tag)">
+                  <label for="tag" class="form-label">標籤</label>
+                  <div class="mb-1" v-for="(item, key) in temp.tag" :key="key">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="tag" placeholder="請輸入標籤" v-model="temp.tag[key]">
+                    </div>
+                  </div>
+                  <div v-if="!temp.tag.length || temp.tag[temp.tag.length-1]">
+                    <button class="btn btn-primary d-block btn-sm" @click="temp.tag.push('')">新增標籤</button>
+                  </div>
+                  <div v-else>
+                    <button class="btn btn-danger btn-sm" @click="temp.tag.pop()">刪除標籤</button>
+                  </div>
+                </div>
+                <div v-else>
+                  <button class="btn btn-primary btn-sm" @click="createTag">新增標籤</button>
+                </div>
               </div>
             </div>
             <div class="col-md-8">
@@ -56,7 +76,7 @@
 </template>
 
 <script>
-import Modal from 'bootstrap/js/dist/modal'
+import ModalMixin from './modal.js'
 import swal from 'sweetalert'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
@@ -64,7 +84,7 @@ export default {
   data () {
     return {
       modal: '',
-      temp: [],
+      temp: { tag: [] },
       date: '',
       isLoading: false,
       editor: ClassicEditor,
@@ -73,15 +93,10 @@ export default {
       }
     }
   },
+  mixins: [ModalMixin],
   emits: ['getArticle'],
   props: ['tempArticle', 'isNew'],
   methods: {
-    openModal () {
-      this.modal.show()
-    },
-    hideModal () {
-      this.modal.hide()
-    },
     UpdateArticle () {
       this.isLoading = true
       this.temp.create_at = Math.floor(new Date(this.date) / 1000)
@@ -126,12 +141,11 @@ export default {
             console.log(err)
           })
       }
+    },
+    createTag () {
+      this.temp.tag = []
+      this.temp.tag.push('')
     }
-  },
-  mounted () {
-    this.modal = new Modal(this.$refs.updateModal, {
-      backdrop: 'static'
-    })
   },
   watch: {
     tempArticle () {

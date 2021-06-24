@@ -1,6 +1,6 @@
 <template>
   <loading v-model:active="isLoading"/>
-  <div class="modal fade" id="modal" ref="updateModal">
+  <div class="modal fade" id="modal" ref="modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -34,7 +34,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary" @click="updateProduct">編輯</button>
+          <button type="button" class="btn btn-primary" @click="updateCoupon">編輯</button>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Modal from 'bootstrap/js/dist/modal'
+import modalMixin from './modal.js'
 import swal from 'sweetalert'
 
 export default {
@@ -54,16 +54,11 @@ export default {
       isLoading: false
     }
   },
+  mixins: [modalMixin],
   emits: ['getCoupon'],
   props: ['tempCoupon', 'isNew'],
   methods: {
-    openModal () {
-      this.modal.show()
-    },
-    hideModal () {
-      this.modal.hide()
-    },
-    updateProduct () {
+    updateCoupon () {
       this.isLoading = true
       if (!this.temp.title || !this.temp.percent || !this.date || !this.temp.code) {
         this.isLoading = false
@@ -119,14 +114,12 @@ export default {
       }
     }
   },
-  mounted () {
-    this.modal = new Modal(this.$refs.updateModal, {
-      backdrop: 'static'
-    })
-  },
   watch: {
     tempCoupon () {
-      this.temp = this.tempCoupon
+      this.temp = {
+        ...this.tempCoupon,
+        is_enabled: this.tempCoupon.is_enabled || '0'
+      }
       if (!this.isNew) {
         this.date = `${new Date(this.temp.due_date * 1000).getFullYear()}-${('0' + (new Date(this.temp.due_date * 1000).getMonth() + 1)).slice(-2)}-${('0' + new Date(this.temp.due_date * 1000).getDate()).slice(-2)}`
       }

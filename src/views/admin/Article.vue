@@ -41,9 +41,9 @@ import swal from 'sweetalert'
 export default {
   data () {
     return {
-      articles: [],
+      articles: { tag: [] },
       pagination: [],
-      tempArticle: [],
+      tempArticle: { tag: [] },
       isNew: true,
       isLoading: false
     }
@@ -78,7 +78,6 @@ export default {
               this.isLoading = false
               this.tempArticle = JSON.parse(JSON.stringify(res.data.article))
               this.isNew = false
-              this.$refs.updateModal.openModal()
             }
           })
           .catch(err => {
@@ -87,8 +86,8 @@ export default {
       } else if (value === 'new') {
         this.tempArticle = {}
         this.isNew = true
-        this.$refs.updateModal.openModal()
       }
+      this.$refs.updateModal.openModal()
     },
     deleteArticle (id, page) {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/article/${id}`

@@ -1,6 +1,6 @@
 <template>
   <loading v-model:active="isLoading"/>
-  <div class="modal fade" id="modal" ref="updateModal">
+  <div class="modal fade" id="modal" ref="modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import Modal from 'bootstrap/js/dist/modal'
+import ModalMixin from './modal.js'
 import swal from 'sweetalert'
 
 export default {
@@ -98,15 +98,10 @@ export default {
       isLoading: false
     }
   },
+  mixins: [ModalMixin],
   emits: ['getProduct'],
   props: ['tempProduct', 'isNew'],
   methods: {
-    openModal () {
-      this.modal.show()
-    },
-    hideModal () {
-      this.modal.hide()
-    },
     updateProduct () {
       this.isLoading = true
       if (!this.temp.title || !this.temp.category || !this.temp.origin_price || !this.temp.price || !this.temp.unit) {
@@ -180,11 +175,6 @@ export default {
       this.temp.imagesUrl = []
       this.temp.imagesUrl.push('')
     }
-  },
-  mounted () {
-    this.modal = new Modal(this.$refs.updateModal, {
-      backdrop: 'static'
-    })
   },
   watch: {
     tempProduct () {

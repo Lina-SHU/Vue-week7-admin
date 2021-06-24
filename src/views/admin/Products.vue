@@ -105,12 +105,11 @@ export default {
       if (value === 'edit') {
         this.isNew = false
         this.tempProduct = JSON.parse(JSON.stringify(product))
-        this.$refs.updateModal.openModal()
       } else if (value === 'new') {
         this.isNew = true
         this.tempProduct = { imagesUrl: [] }
-        this.$refs.updateModal.openModal()
       }
+      this.$refs.updateModal.openModal()
     }
   },
   created () {

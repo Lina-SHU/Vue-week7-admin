@@ -72,12 +72,11 @@ export default {
       if (value === 'edit') {
         this.isNew = false
         this.tempCoupon = JSON.parse(JSON.stringify(coupon))
-        this.$refs.updateModal.openModal()
       } else if (value === 'new') {
         this.isNew = true
         this.tempCoupon = {}
-        this.$refs.updateModal.openModal()
       }
+      this.$refs.updateModal.openModal()
     },
     deleteCoupon (id) {
       this.isLoading = true
