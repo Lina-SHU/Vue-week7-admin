@@ -95,6 +95,7 @@ export default {
         const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`
         this.$http.post(url, { data: this.temp })
           .then(res => {
+            console.log(res)
             if (res.data.success) {
               this.isLoading = false
               swal({
@@ -118,7 +119,7 @@ export default {
     tempCoupon () {
       this.temp = {
         ...this.tempCoupon,
-        is_enabled: this.tempCoupon.is_enabled || '0'
+        is_enabled: this.tempCoupon.is_enabled || 0
       }
       if (!this.isNew) {
         this.date = `${new Date(this.temp.due_date * 1000).getFullYear()}-${('0' + (new Date(this.temp.due_date * 1000).getMonth() + 1)).slice(-2)}-${('0' + new Date(this.temp.due_date * 1000).getDate()).slice(-2)}`
