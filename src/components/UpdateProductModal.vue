@@ -55,7 +55,7 @@
               <div class="mb-1" v-for="(image, index) in temp.imagesUrl" :key="index">
                 <label for="imageUrl" class="form-label">圖片網址</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="imageUrl" placeholder="請輸入圖片連結" v-model="temp.imagesUrl[index]">
+                  <input type="text" class="form-control"  placeholder="請輸入圖片連結" v-model="temp.imagesUrl[index]">
                 </div>
                 <img :src="image" alt="imageUrl" class="img-fiuld mt-2 w-100" v-if="temp.imagesUrl[index]">
               </div>
@@ -69,6 +69,18 @@
             <div v-else>
               <button class="btn btn-outline-primary btn-sm d-block w-100" @click="createImage" type="button">新增圖片</button>
             </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="newArrival" v-model="temp.newArrival">
+            <label class="form-check-label" for="newArrival">
+              新品上市
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="hotProduct" v-model="temp.hotProduct">
+            <label class="form-check-label" for="hotProduct">
+              熱銷款
+            </label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="is_enabled" v-model="temp.is_enabled" true-value="1" false-value="0">

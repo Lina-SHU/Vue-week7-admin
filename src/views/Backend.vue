@@ -8,7 +8,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/admin/products" class="nav-link">商品管理</router-link>
+            <router-link to="/admin" class="nav-link">商品管理</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/admin/orders" class="nav-link">訂單管理</router-link>
@@ -44,7 +44,13 @@ export default {
       this.$http.post(url)
         .then(res => {
           if (res.data.success) {
-            document.cookie = 'hexToken=; expires=; path=/'
+            const exp = new Date()
+            exp.setTime(exp.getTime() - 1)
+            const token = document.cookie.replace(
+              /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
+              '$1'
+            )
+            document.cookie = `hexToken=${token}; expires=${exp.toGMTString()}`
             this.$router.push('/login')
           }
         })

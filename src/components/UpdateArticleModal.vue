@@ -44,6 +44,7 @@
                   <div class="mb-1" v-for="(item, key) in temp.tag" :key="key">
                     <div class="input-group">
                       <input type="text" class="form-control" id="tag" placeholder="請輸入標籤" v-model="temp.tag[key]">
+                      <button class="btn btn-outline-danger" @click="temp.tag.splice(key, 1)">刪除</button>
                     </div>
                   </div>
                   <div v-if="!temp.tag.length || temp.tag[temp.tag.length-1]">
