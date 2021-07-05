@@ -91,7 +91,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary" @click="updateProduct">編輯</button>
+          <button type="button" class="btn btn-primary" @click="updateProduct">確認</button>
         </div>
       </div>
     </div>
